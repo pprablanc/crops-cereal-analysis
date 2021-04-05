@@ -7,23 +7,23 @@ df = load_data()
 
 app = Flask(__name__)
 
-@app.route('/')
-def titre():
-    return "Accueil"
 
-@app.route('/dashboard/')
+@app.route("/")
+def home():
+    return "Home page"
+
+
+@app.route("/dashboard/")
 def dashboard():
     return render_template("dashboard.html")
 
-@app.route('/api/cereal/')
-def culture():
-    cereal_trend = df.groupby(['time']).agg({'time': 'first', 'yield_mean': 'mean'})
-    data = [[k, v] for k,v in cereal_trend['yield_mean'].items()]
 
-    return jsonify({
-        'status': 'ok',
-        'data': data
-    })
+@app.route("/api/cereal/")
+def culture():
+    cereal_trend = df.groupby(["time"]).agg({"time": "first", "yield_mean": "mean"})
+    data = [[k, v] for k, v in cereal_trend["yield_mean"].items()]
+
+    return jsonify({"status": "ok", "data": data})
 
 
 if __name__ == "__main__":

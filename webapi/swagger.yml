@@ -1,0 +1,30 @@
+swagger: "2.0"
+info:
+  description: Swagger file for server
+  version: "1.0.0"
+  title: Swagger (REST?)
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /cereal:
+    get:
+      operationId: cereal.read
+      tags:
+        - Cereal
+      summary: The cereal data structure supported by the server application
+      description: Read the list of cereals
+      responses:
+        200:
+          description: Successful read cereal list operation
+          schema:
+            type: array
+            items:
+              properties:
+                name:
+                  type: string

@@ -18,22 +18,23 @@ def load_data():
                     'yield_map' (numpy masked array):   yield map
                     'mean_yield' (str):                 mean yield for a given map
     '''
+    print('Loading files ...')
     full_dataset = dict(time=[], cereal=[], nc=[])
-    path = "../data/raw"
+    path = '../data/raw'
     with os.scandir(path) as dir_data:
         for sub_dir_data in dir_data:
             for f in os.scandir(os.path.join(path, sub_dir_data.name)):
                 path_f = os.path.join(path, sub_dir_data.name, f.name)
-                time = int(f.name.split("_")[1][:4])
-                full_dataset["time"].append(time)
-                full_dataset["cereal"].append(sub_dir_data.name)
-                full_dataset["nc"].append(nc.Dataset(path_f, "r"))
-    df = pd.DataFrame(full_dataset
+                time = int(f.name.split('_')[1][:4])
+                full_dataset['time'].append(time)
+                full_dataset['cereal'].append(sub_dir_data.name)
+                full_dataset['nc'].append(nc.Dataset(path_f, 'r'))
+    df = pd.DataFrame(full_dataset)
+    print('Files loaded ...')
 
     # Dataset preprocessing
-
-    # Sort data as they are messy when load with scandir
-    df = df.sort_values(["cereal", "time"], ignore_index=True)  # sorting by time
+    print('Dataset preprocessing ...')
+    df.sort_values(["cereal", "time"], ignore_index=True, inplace=True)  # sorting by time
 
     # Add a 'yield' column for display purpose
     # Remask with -1/0 to avoid flatten amplitude
@@ -52,4 +53,5 @@ def load_data():
 
     # nc column not necessary anymore
     df.drop("nc", axis="columns", inplace=True)
+    print('Data import completed.')
     return df

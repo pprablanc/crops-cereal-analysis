@@ -5,7 +5,6 @@ import connexion
 
 
 app = connexion.App(__name__, specification_dir='./')
-app.debug=False
 
 # Read the swagger.yml file to configure the endpoints
 app.add_api('swagger.yml')
@@ -21,6 +20,5 @@ def home():
 
 if __name__ == "__main__":
 
-    # app.run(port=5000, debug=True)
-    app.run(port=5000)
-    app.debug=False
+    app.run(port=5000, debug=True)
+    # app.run(port=5000)

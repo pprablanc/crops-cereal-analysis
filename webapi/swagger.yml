@@ -12,19 +12,73 @@ basePath: /api
 
 # Paths supported by the server application
 paths:
-  /cereal:
+  /yield/cereals/time:
     get:
-      operationId: cereal.read
+      operationId: yield.read_all
       tags:
-        - Cereal
-      summary: The cereal data structure supported by the server application
-      description: Read the list of cereals
+        - Yield all
+      summary: The yield data structure supported by the server application
+      description: Read all the data i.e. yield over all cereals and all years
       responses:
         200:
           description: Successful read cereal list operation
           schema:
             type: array
             items:
+              type: object
               properties:
+                time:
+                  type: integer
                 name:
                   type: string
+                yield_map:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+                      format: float
+  /yield/mean/cereals/{name}/time:
+    get:
+      operationId: yield.read_mean_cereal
+      tags:
+        - mean yield for a given cereal for all year
+      summary: The yield data structure for a given cereal and each year supported by the server application
+      description: Read the mean yield for a given cereal for each year
+      parameters:
+        - name: name
+          in: path
+          description: name of the cereal to get data
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successful read yield mean cereal per year
+          schema:
+            type: array
+            items:
+              type: array
+              items:
+                type: number
+                format: float
+                type: number
+                format: float
+
+
+  /yield/mean/cereals/time:
+    get:
+      operationId: yield.read_mean
+      tags:
+        - mean yield for each cereal and each year
+      summary: The yield data structure for each cereal and each year supported by the server application
+      description: Read the mean yield for all cereal for each year
+      responses:
+        200:
+          description: Successful read yield mean per year
+          schema:
+            type: array
+            items:
+              type: number
+              format: float
+              type: number
+              format: float

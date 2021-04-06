@@ -3,47 +3,47 @@ console.log("Enter in javascript");
 // Palette de couleurs utilisée par tous les graphiques
 var colors = ["#1D507A", "#2F6999", "#66A0D1", "#8FC0E9", "#4682B4"];
 
-d3.json('/api/cereal', display_nvd3_graph);
+d3.json('/api/yield/mean/cereals/wheat/time', display_nvd3_graph);
 
 function display_nvd3_graph(data) {
-    if (data['status'] == "ok") {
-        var cereal_data = [{
-            key: 'Mean yield',
-            values: data['data']
-        }]
+      nv.addGraph(function() {
 
-        nv.addGraph(function() {
+          var data_d3 = [{
+              key: 'Mean yield',
+              values: data
+          }
+          ]
 
-            var chart = nv.models.lineChart()
-                .x(function(d) {
-                    return d[0]
-                })
-                .y(function(d) {
-                    return d[1]
-                })
-                // .yDomain([-5, 35])
-                .height(270)
-                .color(colors);
+          console.log(data_d3)
+          var chart = nv.models.lineChart()
+              .x(function(d) {
+                  return d[0]
+              })
+              .y(function(d) {
+                  return d[1]
+              })
+              // .yDomain([-5, 35])
+              .height(270)
+              .color(colors);
 
-            chart.xAxis
-                .showMaxMin(false)
-                .axisLabel('Year')
+          chart.xAxis
+              .showMaxMin(false)
+              .axisLabel('Year')
 
 
-            chart.yAxis //Chart y-axis settings
-                .showMaxMin(false)
-                .axisLabel('Yield (t/H)')
-                .tickFormat(d3.format(',r'));
+          chart.yAxis //Chart y-axis settings
+              .showMaxMin(false)
+              .axisLabel('Yield (t/H)')
+              .tickFormat(d3.format(',r'));
 
-            d3.select('#cereal svg')
-              .datum(cereal_data)
-                .call(chart);
+          d3.select('#yield svg')
+            .datum(data_d3)
+              .call(chart);
 
-            nv.utils.windowResize(chart.update);
+          nv.utils.windowResize(chart.update);
 
-            return chart;
-        });
-    }
+          return chart;
+      });
 }
 
 

@@ -24,4 +24,4 @@ def read_mean():
 def read_mean_cereal(name):
    tmp = df.groupby(['cereal']).get_group(name)[['time', 'yield_mean']]
 
-   return [list(tmp['time']), list(tmp['yield_mean'])]
+   return [[row[0], row[1]] for index, row in tmp.iterrows()]
